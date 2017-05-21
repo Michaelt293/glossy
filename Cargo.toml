@@ -1,0 +1,14 @@
+[package]
+name = "glossy"
+version = "0.1.0"
+authors = ["Michael Thomas <Michaelt293@gmail.com>"]
+
+[dependencies]
+clap = "~2.19.0"
+csv = "0.14"
+rustc-serialize = "0.3"
+
+[[bin]]
+bench = false
+path = "src/main.rs"
+name = "glo"
