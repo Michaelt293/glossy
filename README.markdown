@@ -4,7 +4,7 @@ Different Industries and professions often make heavy use of jargon and acronyms
 
 As developers/engineers, I suggest a command line tool is more useful since our work is often heavily terminal-based. Jargon/acronyms with their descriptions can be provided in a separate file, preferably under version control. When confronted with an unfamiliar term, a query is as simple as `glo wtf`.
 
-### installation
+### Installation
 
 To install Rust see - https://www.rust-lang.org/en-US/install.html
 
