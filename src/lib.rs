@@ -1,16 +1,18 @@
 extern crate csv;
-extern crate rustc_serialize;
+extern crate serde;
 extern crate clap;
+#[macro_use]
+extern crate serde_derive;
 
 use std::env;
 use std::error::Error;
 use clap::ArgMatches;
 
 
-#[derive(RustcDecodable)]
-pub struct TermWithMeaning {
+#[derive(Deserialize)]
+pub struct TermWithDescription {
     pub term: String,
-    pub meaning: String,
+    pub description: String,
 }
 
 pub struct Config {
@@ -42,28 +44,33 @@ impl Config {
     }
 }
 
-fn search(term: &str, term_meaning: TermWithMeaning) -> () {
-    if term_meaning.term.to_lowercase() == term.to_lowercase() {
-        println!("{}: {}", term_meaning.term, term_meaning.meaning)
+fn search(term: &str, term_description: TermWithDescription) -> () {
+    if term_description.term.to_lowercase() == term.to_lowercase() {
+        println!("{}: {}",
+                 term_description.term,
+                 term_description.description)
     }
 }
 
-fn search_case_sensitive(term: &str, term_meaning: TermWithMeaning) -> () {
-    if term_meaning.term == term {
-        println!("{}: {}", term_meaning.term, term_meaning.meaning)
+fn search_case_sensitive(term: &str, term_description: TermWithDescription) -> () {
+    if term_description.term == term {
+        println!("{}: {}",
+                 term_description.term,
+                 term_description.description)
     }
 }
 
 pub fn run(config: Config, term: &str) -> Result<(), Box<Error>> {
-    let mut file_reader = csv::Reader::from_file(&config.filepath)
-        .map(|f| f.has_headers(config.file_has_headers))?;
+    let mut file_reader = csv::ReaderBuilder::new()
+        .has_headers(config.file_has_headers)
+        .from_path(&config.filepath)?;
 
-    for record in file_reader.decode() {
-        let term_meaning: TermWithMeaning = record?;
+    for record in file_reader.deserialize() {
+        let term_description: TermWithDescription = record?;
         if config.case_sensitive {
-            search_case_sensitive(term, term_meaning)
+            search_case_sensitive(term, term_description)
         } else {
-            search(term, term_meaning)
+            search(term, term_description)
         };
     }
 

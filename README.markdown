@@ -49,7 +49,7 @@ $ glo cape
 CAPE: Convective Available Potential Energy
 ```
 
-We can make the search case sensitive using the -s flag.
+We can make the search case sensitive using the `-s` flag.
 ```
 $ glo -s LI
 LI: Lifted Index

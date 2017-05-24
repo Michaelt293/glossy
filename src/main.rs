@@ -1,6 +1,4 @@
 extern crate glossy;
-extern crate csv;
-extern crate rustc_serialize;
 extern crate clap;
 
 use glossy::*;
